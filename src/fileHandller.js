@@ -91,13 +91,3 @@ export function getChat(userId, chatId) {
 
   return content;
 }
-
-// const data = {
-//   send: "بزرگترین نیروگاه خورشیدی خاورمیانه کجا قرار دارد؟",
-//   respons:
-//     "این نیروگاه در جنوب غربی استان اصفهان و در نزدیکی روستای سیان قرار دارد",
-// };
-
-// console.log(getChat(1,1));
-// saveChat(data, 1,1);
-// deleteChat(1, 4);

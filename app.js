@@ -29,15 +29,3 @@ app.get("/question", async (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
-
-// const sendChat = "میلگرد چیست؟";
-
-// const res = await sendToOpenAi(sendChat, getChat(2, 1));
-
-// const chatObj = {
-//   send: sendChat,
-//   response: res,
-// };
-// saveChat(chatObj, 2, 2);
-// console.log("====================================");
-// console.log(res);
