@@ -91,3 +91,19 @@ export function getChat(userId, chatId) {
 
   return content;
 }
+
+export function getAllChats(userId) {
+  const path = `../allChats/user-${userId}`;
+
+  let data = [];
+  try {
+    const files = fs.readdirSync(path);
+    files.forEach(function (file) {
+      data.push(JSON.parse(fs.readFileSync(path + "/" + file).toString()));
+    });
+  } catch (err) {
+    console.log("Unable to scan directory: " + err);
+  }
+
+  return data;
+}

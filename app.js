@@ -3,7 +3,7 @@ import { getChat, saveChat } from "./src/fileHandller.js";
 import express from "express";
 
 const app = express();
-const port = 3000;
+const port = 3195;
 
 app.get("/", (req, res) => {
   res.send("<h1>I think you are lost!</h1>");
