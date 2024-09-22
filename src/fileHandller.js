@@ -2,7 +2,7 @@ import fs from "fs";
 
 function writeInFile(fileLocation, content, chatId) {
   const finalcontent = {
-    id: chatId,
+    id: String(chatId),
     title: Array.isArray(content) ? content[0].send : content.send,
     chat: content,
   };
@@ -17,6 +17,10 @@ function writeInFile(fileLocation, content, chatId) {
 }
 
 export function saveChat(chat, userId, chatId) {
+  if (userId == undefined || chatId == undefined) {
+    return "userId or chatId is undefined ";
+  }
+
   const path = `./allChats/user-${userId}`;
   let fileLocation = `${path}/chat-${chatId}.json`;
 
@@ -51,7 +55,7 @@ export function saveChat(chat, userId, chatId) {
       if (Array.isArray(JSONContent)) {
         JSONContent.push(chat);
       } else {
-        JSONContent = [JSONContent, chat];
+        JSONContent = JSONContent ? [JSONContent, chat] : [chat];
       }
       writeInFile(fileLocation, JSONContent, chatId);
     }
@@ -93,7 +97,7 @@ export function getChat(userId, chatId) {
 }
 
 export function getAllChats(userId) {
-  const path = `../allChats/user-${userId}`;
+  const path = `./allChats/user-${userId}`;
 
   let data = [];
   try {
