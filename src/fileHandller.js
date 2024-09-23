@@ -7,7 +7,8 @@ function writeInFile(fileLocation, content, chatId) {
     chat: content,
   };
   const JSONContent = JSON.stringify(finalcontent, null, 2);
-  fs.writeFile(fileLocation, JSONContent, (err) => {
+
+  fs.writeFileSync(fileLocation, JSONContent, (err) => {
     if (err) {
       console.error("Error writing file:", err);
     } else {
@@ -16,36 +17,21 @@ function writeInFile(fileLocation, content, chatId) {
   });
 }
 
-export function saveChat(chat, userId, chatId) {
+export async function saveChat(chat, userId, chatId) {
   if (userId == undefined || chatId == undefined) {
     return "userId or chatId is undefined ";
   }
 
   const path = `./allChats/user-${userId}`;
   let fileLocation = `${path}/chat-${chatId}.json`;
-
   if (fs.existsSync(path)) {
     if (!fs.existsSync(fileLocation)) {
       const fileList = fs.readdirSync(path);
       if (Array.isArray(fileList)) {
-        fs.open(
+        writeInFile(
           `${path}/chat-${fileList.length + 1}.json`,
-          "w",
-          function (err, file) {
-            if (err) throw err;
-            fileLocation = `${path}/chat-${fileList.length + 1}.json`;
-
-            const content = fs.readFileSync(fileLocation).toString();
-            var JSONContent = content ? JSON.parse(content) : false;
-
-            if (Array.isArray(JSONContent)) {
-              JSONContent.push(chat);
-            } else {
-              JSONContent = JSONContent ? [JSONContent, chat] : [chat];
-            }
-
-            writeInFile(fileLocation, JSONContent, fileList.length + 1);
-          }
+          [chat],
+          fileList.length + 1
         );
       }
     } else {
@@ -65,6 +51,7 @@ export function saveChat(chat, userId, chatId) {
     }
     writeInFile(`${path}/chat-1.json`, chat, 1);
   }
+  return true;
 }
 
 export function deleteChat(userId, chatId) {
@@ -78,9 +65,11 @@ export function deleteChat(userId, chatId) {
       `./allChats/user-${userId}/trash/chat-${chatId}.json`,
       (err) => {
         if (err) throw err;
-        console.log("delete complete!");
+        return "delete complete!";
       }
     );
+  } else {
+    return "user or chat id wrong";
   }
 }
 
@@ -102,6 +91,7 @@ export function getAllChats(userId) {
   let data = [];
   try {
     const files = fs.readdirSync(path);
+
     files.forEach(function (file) {
       data.push(JSON.parse(fs.readFileSync(path + "/" + file).toString()));
     });

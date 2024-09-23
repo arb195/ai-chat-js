@@ -1,5 +1,10 @@
 import { sendToOpenAi } from "./src/sendChatWithChain.js";
-import { getChat, saveChat, getAllChats } from "./src/fileHandller.js";
+import {
+  getChat,
+  saveChat,
+  getAllChats,
+  deleteChat,
+} from "./src/fileHandller.js";
 import express from "express";
 import cors from "cors";
 
@@ -25,15 +30,27 @@ app.post("/question", async (req, res) => {
     response: responseAi,
   };
 
-  saveChat(chatObj, params.userId, params.chatId);
+  await saveChat(chatObj, params.userId, params.chatId);
 
-  res.send(responseAi);
+  const allChats = getAllChats(params.userId);
+  res.send(allChats);
 });
 
 app.post("/alluserChat", (req, res) => {
   const allChats = getAllChats(req.body.userId);
 
   res.send(allChats);
+});
+
+app.post("/deleteChat", (req, res) => {
+  const { params } = req.body;
+
+  const result = deleteChat(params.userId, params.chatId);
+
+  const allChats = getAllChats(params.userId);
+  if (allChats) {
+    res.send(allChats);
+  }
 });
 
 // listener
