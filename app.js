@@ -55,5 +55,5 @@ app.post("/deleteChat", (req, res) => {
 
 // listener
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Ai app listening on port ${port}`);
 });
