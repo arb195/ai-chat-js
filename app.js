@@ -18,8 +18,13 @@ app.get("/", (req, res) => {
 });
 
 app.post("/question", async (req, res) => {
-  const { params } = req.body;
-
+  let params = req.body;
+    if(!params || params == undefined || Object.keys(params).length == 0){
+        params = req.query
+    }
+    
+    params = params.params
+    
   const responseAi = await sendToOpenAi(
     params.question,
     getChat(params.userId, params.chatId)
@@ -37,13 +42,20 @@ app.post("/question", async (req, res) => {
 });
 
 app.post("/alluserChat", (req, res) => {
-  const allChats = getAllChats(req.body.userId);
+    let userId = req.body.userId;
+    if(!userId || userId == undefined){
+        userId = req.query.userId
+    }
+  const allChats = getAllChats(userId);
 
   res.send(allChats);
 });
 
 app.post("/deleteChat", (req, res) => {
-  const { params } = req.body;
+  let params = req.body;
+    if(!params || params == undefined || Object.keys(params).length == 0){
+        params = req.query
+    }
 
   const result = deleteChat(params.userId, params.chatId);
 

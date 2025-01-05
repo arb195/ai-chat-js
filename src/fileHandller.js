@@ -21,7 +21,6 @@ export async function saveChat(chat, userId, chatId) {
   if (userId == undefined || chatId == undefined) {
     return "userId or chatId is undefined ";
   }
-
   const path = `./allChats/user-${userId}`;
   let fileLocation = `${path}/chat-${chatId}.json`;
   if (fs.existsSync(path)) {
@@ -55,6 +54,9 @@ export async function saveChat(chat, userId, chatId) {
 }
 
 export function deleteChat(userId, chatId) {
+     if (userId == undefined || chatId == undefined) {
+    return "userId or chatId is undefined ";
+  }
   if (fs.existsSync(`./allChats/user-${userId}/chat-${chatId}.json`)) {
     if (!fs.existsSync(`./allChats/user-${userId}/trash`)) {
       fs.mkdirSync(`./allChats/user-${userId}/trash`, { recursive: true });
@@ -74,6 +76,9 @@ export function deleteChat(userId, chatId) {
 }
 
 export function getChat(userId, chatId) {
+     if (userId == undefined || chatId == undefined) {
+    return "userId or chatId is undefined ";
+  }
   const path = `./allChats/user-${userId}`;
   let fileLocation = `${path}/chat-${chatId}.json`;
 
@@ -86,6 +91,9 @@ export function getChat(userId, chatId) {
 }
 
 export function getAllChats(userId) {
+     if (userId == undefined) {
+    return "userId or chatId is undefined ";
+  }
   const path = `./allChats/user-${userId}`;
 
   let data = [];

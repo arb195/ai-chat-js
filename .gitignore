@@ -28,3 +28,5 @@ tsconfig.tsbuildinfo
 .DS_Store
 
 package-lock.json
+.htaccess
+.well-known/
