@@ -56,6 +56,8 @@ app.post("/deleteChat", (req, res) => {
     if(!params || params == undefined || Object.keys(params).length == 0){
         params = req.query
     }
+    
+    params = params.params
 
   const result = deleteChat(params.userId, params.chatId);
 
